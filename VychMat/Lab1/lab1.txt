@@ -1,0 +1,59 @@
+epsilons = [0.001, 0.0001]
+
+result = {"x": 1, "y": 1, "z": 1}
+
+def mpiFormula (result):
+    resultIn = {"x": 1, "y": 1, "z": 1}
+    resultIn["x"] = 1 - (1 / 13) * result["y"]
+    resultIn["y"] = - (3 / 5) + (3 / 5) * result["x"] + (1 / 10) * result["z"]
+    resultIn["z"] = (1 / 5) - (1 / 5) * result["x"] + (1 / 5) * result["y"]
+    return resultIn
+    
+def mzFormula (result):
+    resultIn = {"x": 1, "y": 1, "z": 1}
+    resultIn["x"] = 1 - (1 / 13) * result["y"]
+    resultIn["y"] = - (3 / 5) + (3 / 5) * resultIn["x"] + (1 / 10) * result["z"]
+    resultIn["z"] = (1 / 5) - (1 / 5) * resultIn["x"] + (1 / 5) * resultIn["y"]
+    return resultIn
+    
+def theEnd(k1, k, eps):
+    return abs(abs(k1["x"] - k["x"]) + abs(k1["y"] - k["y"]) + abs(k1["z"] - k["z"])) <= eps
+
+def printHeading(method_name, eps):
+    print(f"{method_name}, EPS = {eps}\n\n")
+    print(f"  x^(k)      y^(k)      z^(k)      x^(k+1)    y^(k+1)    z^(k+1)   |x^(k+1)-x^(k)|+|y^(k+1)-y^(k)|+|z^(k+1)-z^(k)|")
+    
+def printResult(step, k, k1):
+    print(f'{step} {k["x"]:.6f}   {k["y"]:.6f}   {k["z"]:.6f}   {k1["x"]:.6f}   {k1["y"]:.6f}   {k1["z"]:.6f}   {abs(abs(k1["x"] - k["x"]) + abs(k1["x"] - k["x"]) + abs(k1["x"] - k["x"])):.6f}')
+    
+def mpi(k, step, eps):
+    k1 = mpiFormula(k)
+    printResult(step, k, k1)
+    
+    if not theEnd(k1, k, eps):
+        mpi(k1, step+1, eps)
+    else:
+        print("\n")
+
+def mz(k, step, eps):
+    k1 = mzFormula(k)
+    printResult(step, k, k1)
+    
+    if not theEnd(k1, k, eps):
+        mz(k1, step+1, eps)
+    else:
+        print("\n")
+        
+def algorithm(k0, eps):
+    printHeading("Метод простых итераций", eps)
+    mpi(k0, 1, eps)
+          
+    printHeading("Метод Зейделя", eps)
+    mz(k0, 1, eps)
+
+def start(epsilons):
+    inputs = {"x": 1, "y": 1, "z": 1}
+    for eps in epsilons:
+          algorithm(inputs, eps)
+          
+start(epsilons)
