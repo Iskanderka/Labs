@@ -1,2 +1,4 @@
 C:\Users\ogure\Desktop\Labs\SAPR\Laba1\Debug\Laba1.exe
 C:\Users\ogure\Desktop\Labs\SAPR\Laba1\Debug\Laba1.pdb
+D:\Актуальная учёба\Labs\SAPR\Laba1\Debug\Laba1.exe
+D:\Актуальная учёба\Labs\SAPR\Laba1\Debug\Laba1.pdb
